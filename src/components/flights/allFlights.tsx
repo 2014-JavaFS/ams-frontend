@@ -1,22 +1,23 @@
 
 import { useState } from "react";
 import { amsServer } from "../../common/ams-server";
+import FlightTableData from "./flightTableData";
 
 export default function AllFlights(){
 
-    const [flights,setFlights] = useState();
+    const [flights,setFlights] = useState([]);
 
     async function findAllFlights(){
         try{
-            const response = await fetch("http://localhost:9999/flights") // default it's a get
-            const data = await response.json()
+            // const response = await fetch("http://localhost:9999/flights") // default it's a get
+            // const data = await response.json()
 
             const axResp = await amsServer.get("/flights")
 
             console.log(axResp.headers)
-            console.log(data)
+            console.log(flights.map(e => console.log))
 
-            setFlights(data)
+            setFlights(axResp.data)
         } catch(error){
             console.error(error)
         }
@@ -26,6 +27,19 @@ export default function AllFlights(){
         <h1>Welcome to all of our Flights, please search below</h1>
         <button onClick={findAllFlights}>Search Flights</button>
 
-        <p>{flights === undefined ? <p>Click the button above to see flights!</p> : JSON.stringify(flights)}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Origin Airport</th>
+                    <th>Depature Time</th>
+                    <th>Destination Airport</th>
+                    <th>Arrival Time</th>
+                    <th>Airline</th>
+                    <th>Pilot</th>
+                </tr>
+            </thead>
+            {flights === undefined || <FlightTableData flights={flights}></FlightTableData>}
+        </table>
     </>);
 }

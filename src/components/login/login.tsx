@@ -7,14 +7,10 @@ export default function Login(){
     let memberId;
     let memberType;
 
-    const [status,booBoo] = useState<number | String | undefined>(0);
+    const [status,setStatus] = useState<number>(0);
     const emailInput = useRef<HTMLInputElement>(null)
     const passwordInput = useRef<HTMLInputElement>(null)
     // Check this out
-    
-    function anotherfunction(){
-        return "Hi"
-    }
 
     async function login(){
         
@@ -30,12 +26,7 @@ export default function Login(){
             const axResp = await amsServer.post(`auth?email=${emailInput.current?.value}&password=${passwordInput.current?.value}`)
             console.log(axResp.headers.memberid, axResp.headers.membertype)
             console.log(axResp.status)
-            if(axResp.status > 200 || axResp.status < 299 )
-                booBoo(anotherfunction())
-            else if (axResp.status > 300 || axResp.status < 399 )
-                booBoo(12345)
-            console.log(status)
-
+            setStatus(axResp.status)
             
         } catch (error){
             console.error(error)
