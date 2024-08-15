@@ -4,8 +4,6 @@ import { amsServer } from "../../common/ams-server";
 
 
 export default function Login(){
-    let memberId;
-    let memberType;
 
     const [status,setStatus] = useState<number>(0);
     const emailInput = useRef<HTMLInputElement>(null)

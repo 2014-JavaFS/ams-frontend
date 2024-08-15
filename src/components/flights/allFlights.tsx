@@ -15,7 +15,7 @@ export default function AllFlights(){
             const axResp = await amsServer.get("/flights")
 
             console.log(axResp.headers)
-            console.log(flights.map(e => console.log))
+            flights.map(e => console.log(e))
 
             setFlights(axResp.data)
         } catch(error){
