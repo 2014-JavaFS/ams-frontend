@@ -1,3 +1,5 @@
+const { default: axios } = require("axios")
+
 async function register(){
 
     const registerMember = {
@@ -14,6 +16,8 @@ async function register(){
             "Content-Type": "application/json"
         }
     })
+    const response2 = await axios.post("http://localhost:9999/members", registerMember)
+    console.log(response2)
     const data = await response.json()
     console.log(data)
 
