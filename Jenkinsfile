@@ -37,7 +37,7 @@ pipeline{
         stage('Deploy'){
 
             steps{
-                sh "docker run --name ${CONTAINER} -p 5005:5173 jestercharles/ams-front-jenkins:1.0.0"
+                sh "docker run --name ${CONTAINER} -d -p 5005:5173 jestercharles/ams-front-jenkins:1.0.0"
             }
 
         }
