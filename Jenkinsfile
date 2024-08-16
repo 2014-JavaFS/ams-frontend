@@ -29,7 +29,6 @@ pipeline{
 //pushes image to dockerHub
                 sh "docker push ${IMAGE}"
             }
-
         }
 
         stage("Stop & Destroy"){
