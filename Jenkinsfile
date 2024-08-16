@@ -6,8 +6,14 @@ pipeline{
 
 //     Setup environment to pull from the jenkins global for the credentials
     environment{
+        // Global Variables from Jenkins
         dockerHub = credentials('dockerHub')
-        CONTAINER = "ams-frontend-docker"
+
+        // Custom Variables for this Jenkinsfile only
+        SERVICE = "ams-frontend" // #CHECK CONFIG
+        VERSION = "${env.BUILD_ID}"
+        IMAGE = "${dockerHub_USR}/${SERVICE}:${VERSION}"
+        CONTAINER = "${SERVICE}-service" 
     }
 
 // definte all of the stages
@@ -19,9 +25,9 @@ pipeline{
 // Steps are all of the executables on shell, use "" when using environment variables
             steps{
                 sh "docker login -u ${dockerHub_USR} -p ${dockerHub_PSW}"
-                sh 'docker build -t jestercharles/ams-front-jenkins:1.0.0 .'
+                sh "docker build -t ${IMAGE} ."
 //pushes image to dockerHub
-                sh 'docker push jestercharles/ams-front-jenkins:1.0.0'
+                sh "docker push ${IMAGE}"
             }
 
         }
@@ -38,12 +44,10 @@ pipeline{
         stage('Deploy'){
 
             steps{
-                sh "docker run --name ${CONTAINER} -d -p 5005:5173 jestercharles/ams-front-jenkins:1.0.0"
+                sh "docker run --name ${CONTAINER} -d -p 5005:5173 ${IMAGE}" // #CHECK CONFIG ports
             }
 
         }
 
     }
-
-
 }
